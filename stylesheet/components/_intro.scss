@@ -1,0 +1,13 @@
+.intro {
+    background-color: #DCE2AA;
+    background-image: url("../../images/texture.png");
+}
+@media (min-width:768px){
+    .intro {
+        background-image:url("../../images/texture.png"), linear-gradient(110deg, #DCE2AA 50%, #F1ECCE 50%);
+    }
+}
+body {
+    background-color: #F1ECCE;
+    background-image: url("../../images/texture.png");
+}

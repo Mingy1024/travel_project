@@ -1,0 +1,13 @@
+@import "../node_modules/bootstrap/scss/functions";
+
+@import "./helpers/variables";
+@import "../node_modules/bootstrap/scss/maps";
+@import "./helpers/utilities";
+
+@import "../node_modules/bootstrap/scss/bootstrap.scss";
+
+// custom
+@import "./components/navbar";
+@import "./components/carousel";
+@import "./components/intro";
+@import "./components/scroll";
