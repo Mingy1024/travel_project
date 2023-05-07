@@ -10915,36 +10915,27 @@ textarea.form-control-lg {
     height: 100px;
   }
 }
-.navbar {
-  padding-top: 1rem;
-  padding-bottom: 1rem;
-}
-
-.carousel-item img {
-  height: 300px;
-  -o-object-fit: cover;
-     object-fit: cover;
+.header {
+  height: 500px;
+  background-size: cover;
+  background-position: center center;
 }
 
 @media (min-width: 768px) {
-  .carousel-item img {
-    height: 450px;
-    -o-object-fit: cover;
-       object-fit: cover;
-  }
-}
-@media (min-width: 992px) {
-  .carousel-item img {
+  .header {
     height: 550px;
-    -o-object-fit: cover;
-       object-fit: cover;
   }
 }
-@media (min-width: 1200px) {
-  .carousel-item img {
-    height: 600px;
-    -o-object-fit: cover;
-       object-fit: cover;
+.search {
+  padding-top: 90px;
+}
+.search h1, .search .h1 {
+  text-shadow: 0px 3px 2px rgba(0, 0, 0, 0.25);
+}
+
+@media (min-width: 992px) {
+  .search {
+    padding-top: 155px;
   }
 }
 .intro {
