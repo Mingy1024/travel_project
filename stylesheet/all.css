@@ -11044,4 +11044,19 @@ body {
   border-radius: 50%;
   transition: 1s ease;
   background-image: url("../../images/texture.png");
+}
+
+.spotImg {
+  overflow: hidden;
+  border-radius: 8px;
+}
+
+.resultInfo {
+  max-width: 700px;
+  border: 1px solid #d7d7d7;
+  border-radius: 6px;
+  background-color: white;
+  padding: 20px 30px;
+  margin: 30px auto;
+  box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.2);
 }/*# sourceMappingURL=all.css.map */
