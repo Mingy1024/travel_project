@@ -10917,8 +10917,13 @@ textarea.form-control-lg {
 }
 .header {
   height: 500px;
-  background-size: cover;
-  background-position: center center;
+  position: relative;
+}
+
+.carousel-item img {
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
 }
 
 @media (min-width: 768px) {
@@ -10926,6 +10931,11 @@ textarea.form-control-lg {
     height: 550px;
   }
 }
+.searchArea {
+  position: absolute;
+  top: 0;
+}
+
 .search {
   padding-top: 90px;
 }

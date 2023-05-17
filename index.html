@@ -1,69 +1,62 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-    <link rel="stylesheet" href="./stylesheet/all.css" />
-    <script
-      src="https://kit.fontawesome.com/48f04622d4.js"
-      crossorigin="anonymous"
-    ></script>
-  </head>
 
-  <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark p-2">
-      <div class="container-fluid p-0">
-        <a
-          class="navbar-brand pe-4 py-0 ps-lg-0 me-lg-0 ms-auto ps-56 border-end border-white"
-          href="./index.html"
-          ><img
-            src="./images/lgtb-pride.png"
-            alt=""
-            style="width: 40px; height: 40px"
-        /></a>
-        <button
-          class="navbar-toggler me-3"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarSupportedContent"
-          aria-controls="navbarSupportedContent"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div
-          class="collapse navbar-collapse flex-grow-0"
-          id="navbarSupportedContent"
-        >
-          <ul class="navbar-nav mb-2 ms-auto mb-lg-0 me-3">
-            <li class="nav-item">
-              <a class="nav-link" aria-current="page" href="./spot.html"
-                ><i class="fa-solid fa-mountain p-3"></i>找景點</a
-              >
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="./food.html"
-                ><i class="fa-solid fa-utensils p-3"></i>找美食</a
-              >
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="./hotel.html"
-                ><i class="fa-solid fa-hotel p-3"></i>找旅宿</a
-              >
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="./activity.html"
-                ><i class="fa-solid fa-calendar-week p-3"></i>找活動</a
-              >
-            </li>
-          </ul>
-        </div>
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+  <link rel="stylesheet" href="./stylesheet/all.css" />
+  <script src="https://kit.fontawesome.com/48f04622d4.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark p-2">
+    <div class="container-fluid p-0">
+      <a class="navbar-brand pe-4 py-0 ps-lg-0 me-lg-0 ms-auto ps-56 border-end border-white" href="./index.html"><img
+          src="./images/lgtb-pride.png" alt="" style="width: 40px; height: 40px" /></a>
+      <button class="navbar-toggler me-3" type="button" data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+        aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse flex-grow-0" id="navbarSupportedContent">
+        <ul class="navbar-nav mb-2 ms-auto mb-lg-0 me-3">
+          <li class="nav-item">
+            <a class="nav-link" aria-current="page" href="./spot.html"><i class="fa-solid fa-mountain p-3"></i>找景點</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="./food.html"><i class="fa-solid fa-utensils p-3"></i>找美食</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="./hotel.html"><i class="fa-solid fa-hotel p-3"></i>找旅宿</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="./activity.html"><i class="fa-solid fa-calendar-week p-3"></i>找活動</a>
+          </li>
+        </ul>
       </div>
-    </nav>
-    <div class="header">
+    </div>
+  </nav>
+  <div id="carouselControls" class="carousel slide header" data-bs-ride="carousel">
+    <div class="carousel-inner h-100">
+      <div class="carousel-item active h-100" data-bs-interval="2000">
+        <img
+          src="https://images.unsplash.com/photo-1556115908-233c785befbe?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"
+          class="d-block w-100" alt="...">
+      </div>
+      <div class="carousel-item h-100" data-bs-interval="2000">
+        <img
+          src="https://images.unsplash.com/photo-1621848296279-7751546e9acc?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1190&q=80"
+          class="d-block w-100" alt="...">
+      </div>
+      <div class="carousel-item h-100" data-bs-interval="2000">
+        <img
+          src="https://images.unsplash.com/photo-1583395145517-1e3177037600?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1974&q=80"
+          class="d-block w-100" alt="...">
+      </div>
+    </div>
+    <div class="searchArea w-100 h-100">
       <div class="container search">
         <div class="row justify-content-lg-center mb-4">
           <div class="col-9">
@@ -105,12 +98,7 @@
             <select class="form-select"></select>
           </div>
           <div class="col-12 col-lg-4">
-            <input
-              type="text"
-              class="form-control txt"
-              id="keyWord"
-              placeholder="找關鍵字"
-            />
+            <input type="text" class="form-control txt" id="keyWord" placeholder="找關鍵字" />
           </div>
           <div class="col-12 col-lg-2">
             <button class="btn btn-dark w-100 send">
@@ -120,100 +108,84 @@
         </div>
       </div>
     </div>
-    <section class="intro pb-5">
-      <div class="container">
-        <div class="row row-cols-1 row-cols-md-2 pt-4">
-          <div class="col">
-            <img
-              src="./images/undraw_trip_re_f724.svg"
-              alt=""
-              style="height: 400px"
-              class="w-100 animation-wrapper from-left"
-            />
-            <p class="fs-1 text-center mb-0 mt-4 mt-md-0 mt-lg-4 fw-bold">
-              <span class="animation-wrapper typing typing1"></span>
-              <span class="cursor">|</span>
-            </p>
-          </div>
-          <div class="col"></div>
+  </div>
+  <section class="intro pb-5">
+    <div class="container">
+      <div class="row row-cols-1 row-cols-md-2 pt-4">
+        <div class="col">
+          <img src="./images/undraw_trip_re_f724.svg" alt="" style="height: 400px"
+            class="w-100 animation-wrapper from-left" />
+          <p class="fs-1 text-center mb-0 mt-4 mt-md-0 mt-lg-4 fw-bold">
+            <span class="animation-wrapper typing typing1"></span>
+            <span class="cursor">|</span>
+          </p>
         </div>
-        <div class="row row-cols-1 row-cols-md-2 flex-row-reverse pt-4">
-          <div class="col">
-            <img
-              src="./images/undraw_eating_together_re_ux62.svg"
-              alt=""
-              style="height: 400px"
-              class="w-100 animation-wrapper from-right"
-            />
-            <p class="fs-1 text-center mb-0 mt-4 mt-md-0 mt-lg-4 fw-bold">
-              <span class="animation-wrapper typing typing2"></span>
-              <span class="cursor">|</span>
-            </p>
-          </div>
-          <div class="col"></div>
+        <div class="col"></div>
+      </div>
+      <div class="row row-cols-1 row-cols-md-2 flex-row-reverse pt-4">
+        <div class="col">
+          <img src="./images/undraw_eating_together_re_ux62.svg" alt="" style="height: 400px"
+            class="w-100 animation-wrapper from-right" />
+          <p class="fs-1 text-center mb-0 mt-4 mt-md-0 mt-lg-4 fw-bold">
+            <span class="animation-wrapper typing typing2"></span>
+            <span class="cursor">|</span>
+          </p>
         </div>
-        <div class="row row-cols-1 row-cols-md-2 pt-4">
-          <div class="col">
-            <img
-              src="./images/undraw_buy_house_re_8xq7.svg"
-              alt=""
-              style="height: 400px"
-              class="w-100 animation-wrapper from-left"
-            />
-            <p class="fs-1 text-center mb-0 mt-4 mt-md-0 mt-lg-4 fw-bold">
-              <span class="animation-wrapper typing typing3"></span>
-              <span class="cursor">|</span>
-            </p>
-          </div>
-          <div class="col"></div>
+        <div class="col"></div>
+      </div>
+      <div class="row row-cols-1 row-cols-md-2 pt-4">
+        <div class="col">
+          <img src="./images/undraw_buy_house_re_8xq7.svg" alt="" style="height: 400px"
+            class="w-100 animation-wrapper from-left" />
+          <p class="fs-1 text-center mb-0 mt-4 mt-md-0 mt-lg-4 fw-bold">
+            <span class="animation-wrapper typing typing3"></span>
+            <span class="cursor">|</span>
+          </p>
         </div>
+        <div class="col"></div>
       </div>
-    </section>
-    <section class="scroll">
-      <div class="gate gate-top gate-top-1 z-20">
-        <img src="./images/view.png" alt="view" />
+    </div>
+  </section>
+  <section class="scroll">
+    <div class="gate gate-top gate-top-1 z-20">
+      <img src="./images/view.png" alt="view" />
+    </div>
+    <div class="gate gate-bottom gate-bottom-1 z-20">
+      <div class="scroll-info1 d-flex flex-column align-items-center p-4">
+        <h2 class="text-white fw-bold fs-1">幫您整理好各縣市的景點資訊!</h2>
+        <a class="btn btn-cornsilk w-50 rounded-pill mt-3 fs-4 fw-bold">開始搜尋景點</a>
       </div>
-      <div class="gate gate-bottom gate-bottom-1 z-20">
-        <div class="scroll-info1 d-flex flex-column align-items-center p-4">
-          <h2 class="text-white fw-bold fs-1">幫您整理好各縣市的景點資訊!</h2>
-          <a class="btn btn-cornsilk w-50 rounded-pill mt-3 fs-4 fw-bold"
-            >開始搜尋景點</a
-          >
-        </div>
+    </div>
+    <div class="gate gate-top gate-top-2 z-10">
+      <img src="./images/food.png" alt="food" />
+    </div>
+    <div class="gate gate-bottom gate-bottom-2 z-10">
+      <div class="scroll-info2 d-flex flex-column align-items-center p-4">
+        <h2 class="text-white fw-bold fs-1">出遊卻還在煩惱要吃什麼嗎?</h2>
+        <a class="btn btn-cornsilk w-50 rounded-pill mt-3 fs-4 fw-bold">開始搜尋美食</a>
       </div>
-      <div class="gate gate-top gate-top-2 z-10">
-        <img src="./images/food.png" alt="food" />
+    </div>
+    <div class="gate gate-top gate-top-3 z-0">
+      <img src="./images/hotel.png" alt="hotel" />
+    </div>
+    <div class="gate gate-bottom gate-bottom-3 z-0">
+      <div class="scroll-info3 d-flex flex-column align-items-center p-4">
+        <h2 class="text-white fw-bold fs-1">人氣、超值住宿選擇都在這!</h2>
+        <a class="btn btn-cornsilk w-50 rounded-pill mt-3 fs-4 fw-bold">開始搜尋旅宿</a>
       </div>
-      <div class="gate gate-bottom gate-bottom-2 z-10">
-        <div class="scroll-info2 d-flex flex-column align-items-center p-4">
-          <h2 class="text-white fw-bold fs-1">出遊卻還在煩惱要吃什麼嗎?</h2>
-          <a class="btn btn-cornsilk w-50 rounded-pill mt-3 fs-4 fw-bold"
-            >開始搜尋美食</a
-          >
-        </div>
-      </div>
-      <div class="gate gate-top gate-top-3 z-0">
-        <img src="./images/hotel.png" alt="hotel" />
-      </div>
-      <div class="gate gate-bottom gate-bottom-3 z-0">
-        <div class="scroll-info3 d-flex flex-column align-items-center p-4">
-          <h2 class="text-white fw-bold fs-1">人氣、超值住宿選擇都在這!</h2>
-          <a class="btn btn-cornsilk w-50 rounded-pill mt-3 fs-4 fw-bold"
-            >開始搜尋旅宿</a
-          >
-        </div>
-      </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- <a href="https://www.flaticon.com/free-stickers/roman" title="roman stickers">Roman stickers created by Stickers - Flaticon</a> -->
-    <!-- <a href="https://www.flaticon.com/free-stickers/italy" title="italy stickers">Italy stickers created by Stickers - Flaticon</a> -->
-    <!-- <a href="https://www.flaticon.com/free-stickers/cooking" title="cooking stickers">Cooking stickers created by Stickers - Flaticon</a> -->
-    <script src="./node_modules/@popperjs/core/dist/umd/popper.min.js"></script>
-    <script src="./node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/ScrollTrigger.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/TextPlugin.min.js"></script>
-    <script src="./js/gsap.js"></script>
-    <script src="./js/main.js"></script>
-  </body>
+  <!-- <a href="https://www.flaticon.com/free-stickers/roman" title="roman stickers">Roman stickers created by Stickers - Flaticon</a> -->
+  <!-- <a href="https://www.flaticon.com/free-stickers/italy" title="italy stickers">Italy stickers created by Stickers - Flaticon</a> -->
+  <!-- <a href="https://www.flaticon.com/free-stickers/cooking" title="cooking stickers">Cooking stickers created by Stickers - Flaticon</a> -->
+  <script src="./node_modules/@popperjs/core/dist/umd/popper.min.js"></script>
+  <script src="./node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/TextPlugin.min.js"></script>
+  <script src="./js/gsap.js"></script>
+  <script src="./js/main.js"></script>
+</body>
+
 </html>
