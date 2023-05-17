@@ -1,8 +1,9 @@
 const searchResult = document.querySelector(".searchResult");
 const categorySelect = document.querySelector(".categorySelect");
-const a = document.querySelector(".navbar-nav");
+const link = document.querySelector(".navbar-nav");
 const tourCategory = {};
 let router = "";
+let className = "";
 
 // API認證
 function getAuthorizationHeader() {
@@ -38,36 +39,66 @@ function getAuthorizationHeader() {
 
 // 判斷 api 路徑
 
-a.addEventListener("click", function (e) {
-    let className = e.target.className.split(" ");
+link.addEventListener("click", function (e) {
+    className = e.target.className.split(" ");
     let last = className.length - 1;
     switch (className[last]) {
         case "spot":
-            getOriginData("ScenicSpot","item.Class1");
+            getOriginData("ScenicSpot");
             break;
         case "food":
             getOriginData("Restaurant");
             break;
         case "hotel":
-            getOriginData("Restaurant");
+            getOriginData("Hotel");
+            break;
+        case "activity":
+            getOriginData("Activity");
+            break;
     }
 })
 
 // 呼叫 API 服務取得欲顯示在初始畫面的資料進行過濾、渲染
-function getOriginData(router,a) {
+function getOriginData(router) {
     axios.get(`https://tdx.transportdata.tw/api/basic/v2/Tourism/${router}?%24top=20&%24format=JSON`, {
         headers: getAuthorizationHeader()
     })
         .then(res => {
-            
             const tourismData = res.data;
             let str = "";
+            let category = "";
+            let name = "";
+            let time = "";
+
             let filterData = tourismData.filter(item => {
-                let a = item.Class1; // ??
-               
-                return item.Picture.PictureUrl1 !== undefined && a !== undefined;
+                // 判斷是從哪支 api 抓回來的資料並進行過濾
+                if(router == "ScenicSpot" || router == "Activity"){
+                    category = item.Class1;
+                }else if(router == "Restaurant" || router == "Hotel"){
+                    category = item.Class;
+                }
+                return item.Picture.PictureUrl1 !== undefined && category !== undefined;
             } );
             filterData.forEach(item => {
+                // 過濾完的資料根據不同物件屬性組字串
+                if(router == "ScenicSpot"){
+                    category = item.Class1;
+                    name = item.ScenicSpotName;
+
+                }else if(router == "Activity"){
+                    category = item.Class1;
+                    name = item.ActivityName;
+                }else if(router == "Restaurant"){
+                    category = item.Class;
+                    name = item.RestaurantName;
+                    time = `<p class="card-text">
+                                <i class="fa-solid fa-clock pe-2"></i>營業時間 :
+                                <span class="">${item.OpenTime}</span>
+                            </p>`;
+                }else if(router == "Hotel"){
+                    category = item.Class;
+                    name = item.HotelName;
+                }
                 str += `<div class="col">
                         <div class="card p-2">
                             <div class="spotImg">
@@ -75,11 +106,12 @@ function getOriginData(router,a) {
                                     alt="${item.Picture.PictureDescription1}" style="height: 200px; object-fit: cover" class="w-100" />
                             </div>
                             <div class="card-body p-20">
-                                <h5 class="card-title fw-bold">${item.ScenicSpotName}</h5>
-                                <p class="card-text">
+                                <h5 class="card-title fw-bold">${name}</h5>
+                                <p class="card-text mb-2">
                                     <i class="fa-solid fa-location-dot pe-2"></i>${item.Address}
                                 </p>
-                                <span class="badge rounded-pill bg-primary">${item.Class1}</span>
+                               ${time}
+                                <span class="badge rounded-pill bg-primary">${category}</span>
                             </div>
                         </div>
                     </div>`
