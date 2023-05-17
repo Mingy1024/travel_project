@@ -1,6 +1,9 @@
 const searchResult = document.querySelector(".searchResult");
 const categorySelect = document.querySelector(".categorySelect");
+const a = document.querySelector(".navbar-nav");
 const tourCategory = {};
+let router = "";
+
 // API認證
 function getAuthorizationHeader() {
     const parameter = {
@@ -27,22 +30,45 @@ function getAuthorizationHeader() {
 }
 
 // 初始化
-function init() {
-    getOriginData();
-}
-init();
+// function init() {
+//     getOriginData();
+//     // alert(router);
+// }
+// init();
+
+// 判斷 api 路徑
+
+a.addEventListener("click", function (e) {
+    let className = e.target.className.split(" ");
+    let last = className.length - 1;
+    switch (className[last]) {
+        case "spot":
+            getOriginData("ScenicSpot","item.Class1");
+            break;
+        case "food":
+            getOriginData("Restaurant");
+            break;
+        case "hotel":
+            getOriginData("Restaurant");
+    }
+})
 
 // 呼叫 API 服務取得欲顯示在初始畫面的資料進行過濾、渲染
-function getOriginData() {
-    axios.get(`https://tdx.transportdata.tw/api/basic/v2/Tourism/ScenicSpot?%24top=20&%24format=JSON`, {
+function getOriginData(router,a) {
+    axios.get(`https://tdx.transportdata.tw/api/basic/v2/Tourism/${router}?%24top=20&%24format=JSON`, {
         headers: getAuthorizationHeader()
     })
         .then(res => {
+            
             const tourismData = res.data;
             let str = "";
-            let filterData = tourismData.filter( item => item.Picture.PictureUrl1 !== undefined && item.Class1 !== undefined);
+            let filterData = tourismData.filter(item => {
+                let a = item.Class1; // ??
+               
+                return item.Picture.PictureUrl1 !== undefined && a !== undefined;
+            } );
             filterData.forEach(item => {
-                str +=`<div class="col">
+                str += `<div class="col">
                         <div class="card p-2">
                             <div class="spotImg">
                                 <img src="${item.Picture.PictureUrl1}"
@@ -67,24 +93,23 @@ function renderCategory() {
     axios.get(`https://tdx.transportdata.tw/api/basic/v2/Tourism/ScenicSpot?&%24format=JSON`, {
         headers: getAuthorizationHeader()
     })
-    .then( res => {
-        const data = res.data;
-        const filterData = data.filter( item => item.Class1 !== undefined);
-        // 使用物件存取分類種類及數量
-        filterData.forEach( item => {
-            if(tourCategory[item.Class1] == undefined){
-                tourCategory[item.Class1] = 1;
-            }else {
-                tourCategory[item.Class1] += 1;
-            }
-        })
-        // 物件轉陣列
-        const tourCategoryAry = Object.keys(tourCategory);
+        .then(res => {
+            const data = res.data;
+            const filterData = data.filter(item => item.Class1 !== undefined);
+            // 使用物件存取分類種類及數量
+            filterData.forEach(item => {
+                if (tourCategory[item.Class1] == undefined) {
+                    tourCategory[item.Class1] = 1;
+                } else {
+                    tourCategory[item.Class1] += 1;
+                }
+            })
+            // 物件轉陣列
+            const tourCategoryAry = Object.keys(tourCategory);
 
-        let str = `<option selected class="d-none" value="">找分類</option>`;
-        tourCategoryAry.forEach(item => str += `<option value="${item}">${item}</option>`);
-        categorySelect.innerHTML = str;
-    })
+            let str = `<option selected class="d-none" value="">找分類</option>`;
+            tourCategoryAry.forEach(item => str += `<option value="${item}">${item}</option>`);
+            categorySelect.innerHTML = str;
+        })
 }
 renderCategory();
-
