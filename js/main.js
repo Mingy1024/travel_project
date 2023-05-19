@@ -1,6 +1,8 @@
 const searchResult = document.querySelector(".searchResult");
 const categorySelect = document.querySelector(".categorySelect");
 const link = document.querySelector(".navbar-nav");
+const input = document.querySelector(".keyWord");
+const send = document.querySelector(".send");
 // let router = "";
 // let className = "";
 let pageName = "";
@@ -147,6 +149,12 @@ function getOriginData(page) {
     })
     searchResult.innerHTML = str;
 }
+
+function keywordSearch() {
+    let filterData = spotAry.filter( item => item.ScenicSpotName.match(input.value.trim()));
+    console.log(filterData);
+}
+send.addEventListener("click",keywordSearch);
 
 // getOriginData(spotAry);
 // 呼叫 API 服務取得欲顯示在初始畫面的資料進行過濾、渲染
