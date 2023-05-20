@@ -3,9 +3,10 @@ const categorySelect = document.querySelector(".categorySelect");
 const link = document.querySelector(".navbar-nav");
 const input = document.querySelector(".keyWord");
 const send = document.querySelector(".send");
-// let router = "";
-// let className = "";
 let pageName = "";
+let category = "";
+let title = "";
+let time = "";
 const spotAry = JSON.parse(sessionStorage.getItem("spotAry"));
 let foodAry = JSON.parse(sessionStorage.getItem("foodAry"));
 let hotelAry = JSON.parse(sessionStorage.getItem("hotelAry"));
@@ -61,24 +62,14 @@ function init() {
 init();
 
 // 進行資料分類 & 將分類結果顯示在搜尋列 select 選單
-function renderCategory(data) {
+function renderCategory(page) {
     const tourCategory = {};
-    let category = "";
-    const filterData = data.filter( item =>{
-        if(data == spotAry || data == activityAry){
-            category = item.Class1;
-        }else if (data == foodAry || data == hotelAry){
-            category = item.Class;
-        }
+    const filterData = page.filter( item =>{
+        category = unifyClass(page,item);
         return category !== undefined;
     });
     filterData.forEach( item => {
-        if(data == spotAry || data == activityAry){
-            category = item.Class1;
-        }else if (data == foodAry || data == hotelAry){
-            category = item.Class;
-        }
-
+        category = unifyClass(page,item);
         if(tourCategory[category] == undefined) {
             tourCategory[category] = 1;
         }else{
@@ -91,6 +82,34 @@ function renderCategory(data) {
     })
 }
 
+// 統一資料的 種類 屬性名稱
+function unifyClass(page,item) {
+    if(page == spotAry || page == activityAry){
+        category = item.Class1;
+    }else if (page == foodAry || page == hotelAry){
+        category = item.Class;
+    }
+    return category;
+}
+
+// 統一資料的 標題 屬性名稱
+function unifyName(page,item) {
+    if (page == spotAry) {
+        title = item.ScenicSpotName;
+    } else if (page == activityAry) {
+        title = item.ActivityName;
+    } else if (page == foodAry) {
+        title = item.RestaurantName;
+        time = `<p class="card-text">
+                    <i class="fa-solid fa-clock pe-2"></i>營業時間 :
+                    <span class="">${item.OpenTime}</span>
+                </p>`;
+    } else if (page == hotelAry) {
+        title = item.HotelName;
+    }
+    return title;
+}
+
 // 判斷頁面載入對應初始資料
 link.addEventListener("click", function (e) {
     sessionStorage.setItem("page", e.target.dataset.page);
@@ -100,36 +119,14 @@ link.addEventListener("click", function (e) {
 // 組資料字串 & 畫面渲染
 function getOriginData(page) {
     let str = "";
-    let category = "";
-    let name = "";
-    let time = "";
 
     let filterData = page.filter(item => {
-        if (page == spotAry || page == activityAry) {
-            category = item.Class1;
-        } else if (page == foodAry || page == hotelAry) {
-            category = item.Class;
-        }
+        category = unifyClass(page,item);
         return item.Picture.PictureUrl1 !== undefined && category !== undefined;
     })
     filterData.forEach(item => {
-        if (page == spotAry) {
-            category = item.Class1;
-            name = item.ScenicSpotName;
-        } else if (page == activityAry) {
-            category = item.Class1;
-            name = item.ActivityName;
-        } else if (page == foodAry) {
-            category = item.Class;
-            name = item.RestaurantName;
-            time = `<p class="card-text">
-                        <i class="fa-solid fa-clock pe-2"></i>營業時間 :
-                        <span class="">${item.OpenTime}</span>
-                    </p>`;
-        } else if (page == hotelAry) {
-            category = item.Class;
-            name = item.HotelName;
-        }
+        category = unifyClass(page,item);
+        title = unifyName(page,item);
         str += `<div class="col">
                     <div class="card p-2">
                         <div class="spotImg">
@@ -137,7 +134,7 @@ function getOriginData(page) {
                                 alt="${item.Picture.PictureDescription1}" style="height: 200px; object-fit: cover" class="w-100" />
                         </div>
                         <div class="card-body p-20">
-                            <h5 class="card-title fw-bold">${name}</h5>
+                            <h5 class="card-title fw-bold">${title}</h5>
                             <p class="card-text mb-2">
                                 <i class="fa-solid fa-location-dot pe-2"></i>${item.Address}
                             </p>
@@ -150,11 +147,52 @@ function getOriginData(page) {
     searchResult.innerHTML = str;
 }
 
-function keywordSearch() {
-    let filterData = spotAry.filter( item => item.ScenicSpotName.match(input.value.trim()));
-    console.log(filterData);
+// 縣市、分類、關鍵字搜尋
+const citySelect = document.querySelector(".citySelect");
+function keywordSearch(page) {
+    let cityData = page.filter( item => {
+        category = unifyClass(page,item);
+        if (item.Address && category) {
+            if(citySelect.value){
+                return item.Address.includes(citySelect.value);
+            }else{
+                return item;
+            }
+        }
+    });
+    let categoryData = cityData.filter( item => {
+        category = unifyClass(page,item);
+        if(categorySelect.value){
+            return category.includes(categorySelect.value);
+        }else{
+            return item;
+        }
+    })
+    let keyWordData = categoryData.filter( item => {
+        title = unifyName(page,item);
+        return title.includes(input.value.trim())
+    });
+    getOriginData(keyWordData)
 }
-send.addEventListener("click",keywordSearch);
+
+// 搜尋按鈕監聽
+send.addEventListener("click",() => {
+    pageName = sessionStorage.getItem("page");
+    switch (pageName) {
+        case "spot":
+            keywordSearch(spotAry);
+            break;
+        case "food":
+            keywordSearch(foodAry);
+            break;
+        case "hotel":
+            keywordSearch(hotelAry);
+            break;
+        case "activity":
+            keywordSearch(activityAry);
+            break;
+    }
+});
 
 // getOriginData(spotAry);
 // 呼叫 API 服務取得欲顯示在初始畫面的資料進行過濾、渲染
