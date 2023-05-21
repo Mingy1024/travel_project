@@ -84,9 +84,14 @@ function renderCategory(page) {
 
 // 統一資料的 種類 屬性名稱
 function unifyClass(page,item) {
-    if(page == spotAry || page == activityAry){
+    let spot = page.every( item => item.ScenicSpotName);
+    let activity = page.every( item => item.ActivityName);
+    let food = page.every( item => item.RestaurantName);
+    let hotel = page.every(item => item.HotelName);
+
+    if(spot || activity){
         category = item.Class1;
-    }else if (page == foodAry || page == hotelAry){
+    }else if (food || hotel){
         category = item.Class;
     }
     return category;
@@ -94,17 +99,22 @@ function unifyClass(page,item) {
 
 // 統一資料的 標題 屬性名稱
 function unifyName(page,item) {
-    if (page == spotAry) {
+    let spot = page.every( item => item.ScenicSpotName);
+    let activity = page.every( item => item.ActivityName);
+    let food = page.every( item => item.RestaurantName);
+    let hotel = page.every(item => item.HotelName);
+
+    if (spot) {
         title = item.ScenicSpotName;
-    } else if (page == activityAry) {
+    } else if (activity) {
         title = item.ActivityName;
-    } else if (page == foodAry) {
+    } else if (food) {
         title = item.RestaurantName;
         time = `<p class="card-text">
                     <i class="fa-solid fa-clock pe-2"></i>營業時間 :
                     <span class="">${item.OpenTime}</span>
                 </p>`;
-    } else if (page == hotelAry) {
+    } else if (hotel) {
         title = item.HotelName;
     }
     return title;
@@ -119,14 +129,13 @@ link.addEventListener("click", function (e) {
 // 組資料字串 & 畫面渲染
 function getOriginData(page) {
     let str = "";
-
     let filterData = page.filter(item => {
         category = unifyClass(page,item);
         return item.Picture.PictureUrl1 !== undefined && category !== undefined;
     })
     filterData.forEach(item => {
         category = unifyClass(page,item);
-        title = unifyName(page,item);
+        title = unifyName(page,item); 
         str += `<div class="col">
                     <div class="card p-2">
                         <div class="spotImg">
@@ -154,7 +163,11 @@ function keywordSearch(page) {
         category = unifyClass(page,item);
         if (item.Address && category) {
             if(citySelect.value){
-                return item.Address.includes(citySelect.value);
+                if(item.City){
+                    return item.City.includes(citySelect.value);
+                }else{
+                    return item.Address.includes(citySelect.value);
+                }
             }else{
                 return item;
             }
