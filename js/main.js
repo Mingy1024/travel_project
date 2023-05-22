@@ -3,6 +3,8 @@ const categorySelect = document.querySelector(".categorySelect");
 const link = document.querySelector(".navbar-nav");
 const input = document.querySelector(".keyWord");
 const send = document.querySelector(".send");
+const citySelect = document.querySelector(".citySelect");
+const resultInfo = document.querySelector(".resultInfo");
 let pageName = "";
 let category = "";
 let title = "";
@@ -123,6 +125,9 @@ function unifyName(page,item) {
 // 判斷頁面載入對應初始資料
 link.addEventListener("click", function (e) {
     sessionStorage.setItem("page", e.target.dataset.page);
+    citySelect.value = "";
+    categorySelect.value = "";
+    input.value = "";
     init();
 })
 
@@ -154,10 +159,34 @@ function getOriginData(page) {
                 </div>`;
     })
     searchResult.innerHTML = str;
+    showResult(filterData);
+}
+
+function showResult(data) {
+    let result = "";
+    switch (pageName) {
+        case "spot":
+            result = "所有景點";
+            break;
+        case "food":
+            result = "所有美食";
+            break;
+        case "hotel":
+            result = "所有旅宿";
+            break;
+        case "activity":
+            result = "所有活動";
+            break;
+    }
+
+    if(citySelect.value == "" && categorySelect.value == "" && input.value == ""){
+        resultInfo.innerHTML = `<p>以下為「<span class="result fs-5"> ${result} </span>」的搜尋結果</p><p class="d-flex align-items-center mt-2 mt-sm-0">共有 <span class="resultNum px-1 fs-5">${data.length}</span> 筆搜尋結果</p>`;
+    }else{
+        resultInfo.innerHTML = `<p>以下為「<span class="result fs-5"> ${citySelect.value} ${categorySelect.value} ${input.value}</span>」的搜尋結果</p><p class="d-flex align-items-center mt-2 mt-sm-0">共有<span class="resultNum px-1 fs-5">${data.length}</span>筆搜尋結果</p>`;
+    }
 }
 
 // 縣市、分類、關鍵字搜尋
-const citySelect = document.querySelector(".citySelect");
 function keywordSearch(page) {
     let cityData = page.filter( item => {
         category = unifyClass(page,item);

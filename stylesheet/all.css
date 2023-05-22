@@ -11069,4 +11069,16 @@ body {
   padding: 20px 30px;
   margin: 30px auto;
   box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.2);
+}
+
+.resultInfo p {
+  margin-bottom: 0;
+}
+.resultInfo .result {
+  font-weight: bold;
+  color: #01b9b7;
+}
+.resultInfo .resultNum {
+  font-weight: bold;
+  color: #f56961;
 }/*# sourceMappingURL=all.css.map */
