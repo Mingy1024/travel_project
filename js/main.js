@@ -9,10 +9,10 @@ let pageName = "";
 let category = "";
 let title = "";
 let time = "";
-const spotAry = JSON.parse(sessionStorage.getItem("spotAry"));
-let foodAry = JSON.parse(sessionStorage.getItem("foodAry"));
-let hotelAry = JSON.parse(sessionStorage.getItem("hotelAry"));
-let activityAry = JSON.parse(sessionStorage.getItem("activityAry"));
+let spotAry = [];
+let foodAry = [];
+let hotelAry = [];
+let activityAry = [];
 
 // API認證
 function getAuthorizationHeader() {
@@ -39,13 +39,38 @@ function getAuthorizationHeader() {
         })
 }
 
+function getData() {
+    pageName = sessionStorage.getItem("page");
+    axios.get("https://tdx.transportdata.tw/api/basic/v2/Tourism/ScenicSpot?&%24format=JSON",{
+        headers: getAuthorizationHeader()
+    })
+    .then( res => spotAry = res.data);
+    axios.get("https://tdx.transportdata.tw/api/basic/v2/Tourism/Restaurant?&%24format=JSON",{
+        headers: getAuthorizationHeader()
+    })
+    .then( res => foodAry = res.data);
+    axios.get("https://tdx.transportdata.tw/api/basic/v2/Tourism/Hotel?&%24format=JSON",{
+        headers: getAuthorizationHeader()
+    })
+    .then( res => hotelAry = res.data);
+    axios.get("https://tdx.transportdata.tw/api/basic/v2/Tourism/Activity?&%24format=JSON",{
+        headers: getAuthorizationHeader()
+    })
+    .then( res => activityAry = res.data);
+}
+
 // 初始化
-function init() {
+
+// getData();
+async function init() {
     pageName = sessionStorage.getItem("page");
     switch (pageName) {
         case "spot":
+            let a = await getData();
+            console.log(a);
             getOriginData(spotAry);
             renderCategory(spotAry);
+            console.log('111');
             break;
         case "food":
             getOriginData(foodAry);
@@ -298,30 +323,3 @@ send.addEventListener("click",() => {
 //             searchResult.innerHTML = str;
 //         })
 // }
-
-
-// 取得分類種類
-// function renderCategory() {
-//     axios.get(`https://tdx.transportdata.tw/api/basic/v2/Tourism/ScenicSpot?&%24format=JSON`, {
-//         headers: getAuthorizationHeader()
-//     })
-//         .then(res => {
-//             const data = res.data;
-//             const filterData = data.filter(item => item.Class1 !== undefined);
-//             // 使用物件存取分類種類及數量
-//             filterData.forEach(item => {
-//                 if (tourCategory[item.Class1] == undefined) {
-//                     tourCategory[item.Class1] = 1;
-//                 } else {
-//                     tourCategory[item.Class1] += 1;
-//                 }
-//             })
-//             // 物件轉陣列
-//             const tourCategoryAry = Object.keys(tourCategory);
-
-//             let str = `<option selected class="d-none" value="">找分類</option>`;
-//             tourCategoryAry.forEach(item => str += `<option value="${item}">${item}</option>`);
-//             categorySelect.innerHTML = str;
-//         })
-// }
-// renderCategory();
