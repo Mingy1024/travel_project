@@ -9,10 +9,8 @@ let pageName = "";
 let category = "";
 let title = "";
 let time = "";
-let spotAry = [];
-let foodAry = [];
-let hotelAry = [];
-let activityAry = [];
+let data = [];
+
 
 // API認證
 function getAuthorizationHeader() {
@@ -39,50 +37,30 @@ function getAuthorizationHeader() {
         })
 }
 
-function getData() {
-    pageName = sessionStorage.getItem("page");
-    axios.get("https://tdx.transportdata.tw/api/basic/v2/Tourism/ScenicSpot?&%24format=JSON",{
+async function getData(page) {
+    await axios.get(`https://tdx.transportdata.tw/api/basic/v2/Tourism/${page}?&%24format=JSON`,{
         headers: getAuthorizationHeader()
     })
-    .then( res => spotAry = res.data);
-    axios.get("https://tdx.transportdata.tw/api/basic/v2/Tourism/Restaurant?&%24format=JSON",{
-        headers: getAuthorizationHeader()
-    })
-    .then( res => foodAry = res.data);
-    axios.get("https://tdx.transportdata.tw/api/basic/v2/Tourism/Hotel?&%24format=JSON",{
-        headers: getAuthorizationHeader()
-    })
-    .then( res => hotelAry = res.data);
-    axios.get("https://tdx.transportdata.tw/api/basic/v2/Tourism/Activity?&%24format=JSON",{
-        headers: getAuthorizationHeader()
-    })
-    .then( res => activityAry = res.data);
+    .then( res => data = res.data);
+    await renderData(data);
+    await renderCategory(data);
 }
 
 // 初始化
-
-// getData();
 async function init() {
     pageName = sessionStorage.getItem("page");
     switch (pageName) {
         case "spot":
-            let a = await getData();
-            console.log(a);
-            getOriginData(spotAry);
-            renderCategory(spotAry);
-            console.log('111');
+            await getData("ScenicSpot");
             break;
         case "food":
-            getOriginData(foodAry);
-            renderCategory(foodAry);
+            await getData("Restaurant");
             break;
         case "hotel":
-            getOriginData(hotelAry);
-            renderCategory(hotelAry);
+            await getData("Hotel");
             break;
         case "activity":
-            getOriginData(activityAry);
-            renderCategory(activityAry);
+            await getData("Activity");
             break;
     }
 }
@@ -157,7 +135,7 @@ link.addEventListener("click", function (e) {
 })
 
 // 組資料字串 & 畫面渲染
-function getOriginData(page) {
+function renderData(page) {
     let str = "";
     let filterData = page.filter(item => {
         category = unifyClass(page,item);
@@ -239,7 +217,7 @@ function keywordSearch(page) {
         title = unifyName(page,item);
         return title.includes(input.value.trim())
     });
-    getOriginData(keyWordData)
+    renderData(keyWordData);
 }
 
 // 搜尋按鈕監聽
