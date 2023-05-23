@@ -40,17 +40,38 @@ function getAuthorizationHeader() {
 
 // 串接 api 取得資料
 async function getData(page) {
-    await axios.get(`https://tdx.transportdata.tw/api/basic/v2/Tourism/${page}?&%24format=JSON`,{
+    await axios.get(`https://tdx.transportdata.tw/api/basic/v2/Tourism/${page}?&%24format=JSON`, {
         headers: getAuthorizationHeader()
     })
-    .then( res => {
-        totalData = res.data;
-        initData = res.data.slice(0,21);
-    });
+        .then(res => {
+            totalData = res.data;
+            initData = res.data.slice(0, 21);
+        });
     await renderData(initData);
     await renderCategory(totalData);
+    renderPageNum();
 }
 
+const pagination = document.querySelector(".pagination");
+function renderPageNum() {
+    const totalPage = Math.ceil(totalData.length / 20);
+    const prevPage = `<li class="page-item">
+                        <a class="page-link">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>`;
+    const nextPage =`<li class="page-item">
+                        <a class="page-link" href="#" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>`;
+    let str = "";
+
+    for(let i = 1; i <= totalPage; i++) {
+        str += `<li class="page-item"><a class="page-link" href="#">${i}</a></li>`;
+    }
+    pagination.innerHTML = `${prevPage}${str}${nextPage}`;
+}
 // 初始化
 async function init() {
     pageName = sessionStorage.getItem("page");
@@ -74,47 +95,47 @@ init();
 // 進行資料分類 & 將分類結果顯示在搜尋列 select 選單
 function renderCategory(page) {
     const tourCategory = {};
-    const filterData = page.filter( item =>{
-        category = unifyClass(page,item);
+    const filterData = page.filter(item => {
+        category = unifyClass(page, item);
         return category !== undefined;
     });
-    filterData.forEach( item => {
-        category = unifyClass(page,item);
-        if(tourCategory[category] == undefined) {
+    filterData.forEach(item => {
+        category = unifyClass(page, item);
+        if (tourCategory[category] == undefined) {
             tourCategory[category] = 1;
-        }else{
+        } else {
             tourCategory[category] += 1;
         }
         const tourCategoryAry = Object.keys(tourCategory);
         let str = `<option selected class="d-none" value="">找分類</option>`;
-        tourCategoryAry.forEach( item => str += `<option value="${item}">${item}</option>`);
+        tourCategoryAry.forEach(item => str += `<option value="${item}">${item}</option>`);
         categorySelect.innerHTML = str;
     })
 }
 
 // 統一資料的 種類 屬性名稱
-function unifyClass(page,item) {
-    let spot = page.every( item => item.ScenicSpotName);
-    let activity = page.every( item => item.ActivityName);
-    let food = page.every( item => item.RestaurantName);
+function unifyClass(page, item) {
+    let spot = page.every(item => item.ScenicSpotName);
+    let activity = page.every(item => item.ActivityName);
+    let food = page.every(item => item.RestaurantName);
     let hotel = page.every(item => item.HotelName);
 
-    if(spot || activity){
+    if (spot || activity) {
         category = item.Class1;
-    }else if (food || hotel){
+    } else if (food || hotel) {
         category = item.Class;
     }
     return category;
 }
 
 // 統一資料的 標題 屬性名稱
-function unifyName(page,item) {
-    let spot = page.every( item => item.ScenicSpotName);
-    let activity = page.every( item => item.ActivityName);
-    let food = page.every( item => item.RestaurantName);
+function unifyName(page, item) {
+    let spot = page.every(item => item.ScenicSpotName);
+    let activity = page.every(item => item.ActivityName);
+    let food = page.every(item => item.RestaurantName);
     let hotel = page.every(item => item.HotelName);
     time = "";
-    
+
     if (spot) {
         title = item.ScenicSpotName;
     } else if (activity) {
@@ -145,12 +166,12 @@ link.addEventListener("click", function (e) {
 function renderData(page) {
     let str = "";
     let filterData = page.filter(item => {
-        category = unifyClass(page,item);
+        category = unifyClass(page, item);
         return item.Picture.PictureUrl1 !== undefined && category !== undefined;
     })
     filterData.forEach(item => {
-        category = unifyClass(page,item);
-        title = unifyName(page,item); 
+        category = unifyClass(page, item);
+        title = unifyName(page, item);
         str += `<div class="col">
                     <div class="card p-2 h-100">
                         <div class="spotImg">
@@ -190,45 +211,45 @@ function showResult(data) {
             break;
     }
 
-    if(citySelect.value == "" && categorySelect.value == "" && input.value == ""){
+    if (citySelect.value == "" && categorySelect.value == "" && input.value == "") {
         resultInfo.innerHTML = `<p>以下為「<span class="result fs-5"> ${result} </span>」的搜尋結果</p><p class="d-flex align-items-center mt-2 mt-sm-0">共有 <span class="resultNum px-1 fs-5">${data.length}</span> 筆搜尋結果</p>`;
-    }else{
+    } else {
         resultInfo.innerHTML = `<p>以下為「<span class="result fs-5"> ${citySelect.value} ${categorySelect.value} ${input.value}</span>」的搜尋結果</p><p class="d-flex align-items-center mt-2 mt-sm-0">共有<span class="resultNum px-1 fs-5">${data.length}</span>筆搜尋結果</p>`;
     }
 }
 
 // 縣市、分類、關鍵字搜尋
 function keywordSearch(page) {
-    let cityData = page.filter( item => {
-        category = unifyClass(page,item);
+    let cityData = page.filter(item => {
+        category = unifyClass(page, item);
         if (item.Address && category) {
-            if(citySelect.value){
-                if(item.City){
+            if (citySelect.value) {
+                if (item.City) {
                     return item.City.includes(citySelect.value);
-                }else{
+                } else {
                     return item.Address.includes(citySelect.value);
                 }
-            }else{
+            } else {
                 return item;
             }
         }
     });
-    let categoryData = cityData.filter( item => {
-        category = unifyClass(page,item);
-        if(categorySelect.value){
+    let categoryData = cityData.filter(item => {
+        category = unifyClass(page, item);
+        if (categorySelect.value) {
             return category.includes(categorySelect.value);
-        }else{
+        } else {
             return item;
         }
     })
-    let keyWordData = categoryData.filter( item => {
-        title = unifyName(page,item);
+    let keyWordData = categoryData.filter(item => {
+        title = unifyName(page, item);
         return title.includes(input.value.trim())
     });
     renderData(keyWordData);
 }
 
 // 搜尋按鈕監聽
-send.addEventListener("click",() => {
+send.addEventListener("click", () => {
     keywordSearch(totalData);
 });
