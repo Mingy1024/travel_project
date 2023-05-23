@@ -9,7 +9,8 @@ let pageName = "";
 let category = "";
 let title = "";
 let time = "";
-let data = [];
+let totalData = [];
+let initData = [];
 
 
 // API認證
@@ -37,13 +38,17 @@ function getAuthorizationHeader() {
         })
 }
 
+// 串接 api 取得資料
 async function getData(page) {
     await axios.get(`https://tdx.transportdata.tw/api/basic/v2/Tourism/${page}?&%24format=JSON`,{
         headers: getAuthorizationHeader()
     })
-    .then( res => data = res.data);
-    await renderData(data);
-    await renderCategory(data);
+    .then( res => {
+        totalData = res.data;
+        initData = res.data.slice(0,21);
+    });
+    await renderData(initData);
+    await renderCategory(totalData);
 }
 
 // 初始化
@@ -108,7 +113,8 @@ function unifyName(page,item) {
     let activity = page.every( item => item.ActivityName);
     let food = page.every( item => item.RestaurantName);
     let hotel = page.every(item => item.HotelName);
-
+    time = "";
+    
     if (spot) {
         title = item.ScenicSpotName;
     } else if (activity) {
@@ -119,6 +125,7 @@ function unifyName(page,item) {
                     <i class="fa-solid fa-clock pe-2"></i>營業時間 :
                     <span class="">${item.OpenTime}</span>
                 </p>`;
+        return title;
     } else if (hotel) {
         title = item.HotelName;
     }
@@ -145,7 +152,7 @@ function renderData(page) {
         category = unifyClass(page,item);
         title = unifyName(page,item); 
         str += `<div class="col">
-                    <div class="card p-2">
+                    <div class="card p-2 h-100">
                         <div class="spotImg">
                             <img src="${item.Picture.PictureUrl1}"
                                 alt="${item.Picture.PictureDescription1}" style="height: 200px; object-fit: cover" class="w-100" />
@@ -165,6 +172,7 @@ function renderData(page) {
     showResult(filterData);
 }
 
+// 搜尋結果欄位顯示
 function showResult(data) {
     let result = "";
     switch (pageName) {
@@ -222,82 +230,5 @@ function keywordSearch(page) {
 
 // 搜尋按鈕監聽
 send.addEventListener("click",() => {
-    pageName = sessionStorage.getItem("page");
-    switch (pageName) {
-        case "spot":
-            keywordSearch(spotAry);
-            break;
-        case "food":
-            keywordSearch(foodAry);
-            break;
-        case "hotel":
-            keywordSearch(hotelAry);
-            break;
-        case "activity":
-            keywordSearch(activityAry);
-            break;
-    }
+    keywordSearch(totalData);
 });
-
-// getOriginData(spotAry);
-// 呼叫 API 服務取得欲顯示在初始畫面的資料進行過濾、渲染
-// function getOriginData(router) {
-//     axios.get(`https://tdx.transportdata.tw/api/basic/v2/Tourism/${router}?%24top=20&%24format=JSON`, {
-//         headers: getAuthorizationHeader()
-//     })
-//         .then(res => {
-//             const tourismData = res.data;
-//             let str = "";
-//             let category = "";
-//             let name = "";
-//             let time = "";
-
-//             let filterData = tourismData.filter(item => {
-//                 // 判斷是從哪支 api 抓回來的資料並進行過濾
-//                 if(router == "ScenicSpot" || router == "Activity"){
-//                     category = item.Class1;
-//                 }else if(router == "Restaurant" || router == "Hotel"){
-//                     category = item.Class;
-//                 }
-//                 return item.Picture.PictureUrl1 !== undefined && category !== undefined;
-//             } );
-//             filterData.forEach(item => {
-//                 // 過濾完的資料根據不同物件屬性組字串
-//                 if(router == "ScenicSpot"){
-//                     category = item.Class1;
-//                     name = item.ScenicSpotName;
-
-//                 }else if(router == "Activity"){
-//                     category = item.Class1;
-//                     name = item.ActivityName;
-//                 }else if(router == "Restaurant"){
-//                     category = item.Class;
-//                     name = item.RestaurantName;
-//                     time = `<p class="card-text">
-//                                 <i class="fa-solid fa-clock pe-2"></i>營業時間 :
-//                                 <span class="">${item.OpenTime}</span>
-//                             </p>`;
-//                 }else if(router == "Hotel"){
-//                     category = item.Class;
-//                     name = item.HotelName;
-//                 }
-//                 str += `<div class="col">
-//                         <div class="card p-2">
-//                             <div class="spotImg">
-//                                 <img src="${item.Picture.PictureUrl1}"
-//                                     alt="${item.Picture.PictureDescription1}" style="height: 200px; object-fit: cover" class="w-100" />
-//                             </div>
-//                             <div class="card-body p-20">
-//                                 <h5 class="card-title fw-bold">${name}</h5>
-//                                 <p class="card-text mb-2">
-//                                     <i class="fa-solid fa-location-dot pe-2"></i>${item.Address}
-//                                 </p>
-//                                ${time}
-//                                 <span class="badge rounded-pill bg-primary">${category}</span>
-//                             </div>
-//                         </div>
-//                     </div>`
-//             })
-//             searchResult.innerHTML = str;
-//         })
-// }
