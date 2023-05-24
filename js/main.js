@@ -5,13 +5,15 @@ const input = document.querySelector(".keyWord");
 const send = document.querySelector(".send");
 const citySelect = document.querySelector(".citySelect");
 const resultInfo = document.querySelector(".resultInfo");
+const paginationElement = document.querySelector(".pagination");
 let pageName = "";
 let category = "";
 let title = "";
 let time = "";
 let totalData = [];
-let initData = [];
+let filterData = [];
 
+import createPagination from './createPagination.js';
 
 // API認證
 function getAuthorizationHeader() {
@@ -45,33 +47,68 @@ async function getData(page) {
     })
         .then(res => {
             totalData = res.data;
-            initData = res.data.slice(0, 21);
         });
-    await renderData(initData);
     await renderCategory(totalData);
-    renderPageNum();
+
+    filterData = totalData.filter(item => {
+        category = unifyClass(totalData, item);
+        return item.Picture.PictureUrl1 !== undefined && category !== undefined;
+    })
+
+    const pagesLength = Math.ceil(filterData.length / 20);
+    const pagination = createPagination({
+        pagesLength,
+        onChange: updateElements,
+    })
+    pagination.setPage(1);
+    
+    paginationElement.addEventListener("click", e => {
+        const { action, value } = e.target.dataset;
+        console.log(action, value);
+        const newPage = Number(value);
+        const currentPage = pagination.getCurrentPage();
+
+        if (!action || currentPage == newPage) { return; }
+
+        const { currentPage: newCurrentPage } = pagination[action](newPage);
+    })
+
+    // 搜尋按鈕監聽
+    send.addEventListener("click", () => {
+        keywordSearch(filterData);
+    });
 }
 
-const pagination = document.querySelector(".pagination");
-function renderPageNum() {
-    const totalPage = Math.ceil(totalData.length / 20);
-    const prevPage = `<li class="page-item">
-                        <a class="page-link">
+// 根據頁數顯示對應資料
+function updateElements({ currentPage, pages }) {
+    const currentIndex = (currentPage - 1) * 10;
+    renderData(filterData.slice(currentIndex, currentIndex + 10));
+    renderPageNum(pages);
+}
+
+// 依資料筆數渲染分頁列
+function renderPageNum(pages) {
+    let str = "";
+    pages.forEach(item => {
+        if (item.value == "Prev") {
+            str += `<li class="page-item">
+                        <a class="page-link" href="#" aria-label="Prev" data-action="${item.action}" data-value="${item.value}">
                             <span aria-hidden="true">&laquo;</span>
                         </a>
                     </li>`;
-    const nextPage =`<li class="page-item">
-                        <a class="page-link" href="#" aria-label="Next">
+        } else if (item.value == "Next") {
+            str += `<li class="page-item">
+                        <a class="page-link" href="#" aria-label="Next" data-action="${item.action}" data-value="${item.value}">
                             <span aria-hidden="true">&raquo;</span>
                         </a>
                     </li>`;
-    let str = "";
-
-    for(let i = 1; i <= totalPage; i++) {
-        str += `<li class="page-item"><a class="page-link" href="#">${i}</a></li>`;
-    }
-    pagination.innerHTML = `${prevPage}${str}${nextPage}`;
+        } else {
+            str += `<li class="page-item"><a class="page-link" href="#" data-action="${item.action}" data-value="${item.value}">${item.value}</a></li>`
+        }
+    })
+    paginationElement.innerHTML = str;
 }
+
 // 初始化
 async function init() {
     pageName = sessionStorage.getItem("page");
@@ -165,11 +202,11 @@ link.addEventListener("click", function (e) {
 // 組資料字串 & 畫面渲染
 function renderData(page) {
     let str = "";
-    let filterData = page.filter(item => {
-        category = unifyClass(page, item);
-        return item.Picture.PictureUrl1 !== undefined && category !== undefined;
-    })
-    filterData.forEach(item => {
+    // let filterData = page.filter(item => {
+    //     category = unifyClass(page, item);
+    //     return item.Picture.PictureUrl1 !== undefined && category !== undefined;
+    // })
+    page.forEach(item => {
         category = unifyClass(page, item);
         title = unifyName(page, item);
         str += `<div class="col">
@@ -247,9 +284,10 @@ function keywordSearch(page) {
         return title.includes(input.value.trim())
     });
     renderData(keyWordData);
+    // updateElements(); ??
 }
 
 // 搜尋按鈕監聽
-send.addEventListener("click", () => {
-    keywordSearch(totalData);
-});
+// send.addEventListener("click", () => {
+//     keywordSearch(totalData);
+// });
