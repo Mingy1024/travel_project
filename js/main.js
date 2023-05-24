@@ -12,6 +12,7 @@ let title = "";
 let time = "";
 let totalData = [];
 let filterData = [];
+let searchData = [];
 
 import createPagination from './createPagination.js';
 
@@ -55,8 +56,9 @@ async function getData(page) {
         return item.Picture.PictureUrl1 !== undefined && category !== undefined;
     })
 
-    const pagesLength = Math.ceil(filterData.length / 20);
-    const pagination = createPagination({
+    searchData = filterData;
+    let pagesLength = Math.ceil(searchData.length / 12);
+    let pagination = createPagination({
         pagesLength,
         onChange: updateElements,
     })
@@ -75,37 +77,48 @@ async function getData(page) {
 
     // 搜尋按鈕監聽
     send.addEventListener("click", () => {
-        keywordSearch(filterData);
+        searchData =  keywordSearch(filterData);
+        pagesLength = Math.ceil(searchData.length / 12);
+        pagination = createPagination({
+            pagesLength,
+            onChange: updateElements,
+        })
+        pagination.setPage(1);
     });
 }
 
 // 根據頁數顯示對應資料
 function updateElements({ currentPage, pages }) {
-    const currentIndex = (currentPage - 1) * 10;
-    renderData(filterData.slice(currentIndex, currentIndex + 10));
-    renderPageNum(pages);
+    let dataLength = searchData.length;
+    const currentIndex = (currentPage - 1) * 12;
+    renderData(searchData.slice(currentIndex, currentIndex + 12));
+    renderPageNum(pages,dataLength);
 }
 
 // 依資料筆數渲染分頁列
-function renderPageNum(pages) {
+function renderPageNum(pages,dataLength) {
     let str = "";
-    pages.forEach(item => {
-        if (item.value == "Prev") {
-            str += `<li class="page-item">
-                        <a class="page-link" href="#" aria-label="Prev" data-action="${item.action}" data-value="${item.value}">
-                            <span aria-hidden="true">&laquo;</span>
-                        </a>
-                    </li>`;
-        } else if (item.value == "Next") {
-            str += `<li class="page-item">
-                        <a class="page-link" href="#" aria-label="Next" data-action="${item.action}" data-value="${item.value}">
-                            <span aria-hidden="true">&raquo;</span>
-                        </a>
-                    </li>`;
-        } else {
-            str += `<li class="page-item"><a class="page-link" href="#" data-action="${item.action}" data-value="${item.value}">${item.value}</a></li>`
-        }
-    })
+    if(!dataLength){
+        str = "";
+    }else{
+        pages.forEach(item => {
+            if (item.value == "Prev") {
+                str += `<li class="page-item">
+                            <a class="page-link" href="#result" aria-label="Prev" data-action="${item.action}" data-value="${item.value}">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                        </li>`;
+            } else if (item.value == "Next") {
+                str += `<li class="page-item">
+                            <a class="page-link" href="#result" aria-label="Next" data-action="${item.action}" data-value="${item.value}">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>`;
+            } else {
+                str += `<li class="page-item"><a class="page-link" href="#result" data-action="${item.action}" data-value="${item.value}">${item.value}</a></li>`
+            }
+        })
+    }
     paginationElement.innerHTML = str;
 }
 
@@ -202,10 +215,6 @@ link.addEventListener("click", function (e) {
 // 組資料字串 & 畫面渲染
 function renderData(page) {
     let str = "";
-    // let filterData = page.filter(item => {
-    //     category = unifyClass(page, item);
-    //     return item.Picture.PictureUrl1 !== undefined && category !== undefined;
-    // })
     page.forEach(item => {
         category = unifyClass(page, item);
         title = unifyName(page, item);
@@ -227,7 +236,7 @@ function renderData(page) {
                 </div>`;
     })
     searchResult.innerHTML = str;
-    showResult(filterData);
+    showResult(searchData);
 }
 
 // 搜尋結果欄位顯示
@@ -283,11 +292,6 @@ function keywordSearch(page) {
         title = unifyName(page, item);
         return title.includes(input.value.trim())
     });
-    renderData(keyWordData);
-    // updateElements(); ??
+    return keyWordData;
 }
 
-// 搜尋按鈕監聽
-// send.addEventListener("click", () => {
-//     keywordSearch(totalData);
-// });
