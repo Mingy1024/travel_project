@@ -1,4 +1,4 @@
-.spotImg {
+.resultImg {
     overflow: hidden;
     border-radius: 8px;
 }
@@ -10,4 +10,16 @@
     padding: 20px 30px;
     margin: 30px auto;
     box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.2);
+}
+
+.modalImg {
+    height: 300px;
+    object-fit: cover;
+}
+
+@media (min-width:768px) {
+    .modalImg {
+        height: 400px;
+        object-fit: cover;
+    }
 }

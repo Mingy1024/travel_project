@@ -11056,7 +11056,7 @@ body {
   background-image: url("../../images/texture.png");
 }
 
-.spotImg {
+.resultImg {
   overflow: hidden;
   border-radius: 8px;
 }
@@ -11071,6 +11071,19 @@ body {
   box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.2);
 }
 
+.modalImg {
+  height: 300px;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+
+@media (min-width: 768px) {
+  .modalImg {
+    height: 400px;
+    -o-object-fit: cover;
+       object-fit: cover;
+  }
+}
 .resultInfo p {
   margin-bottom: 0;
 }

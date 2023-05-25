@@ -10,6 +10,9 @@ let pageName = "";
 let category = "";
 let title = "";
 let time = "";
+let dataId = "";
+let detail = "";
+let detail2 = "";
 let totalData = [];
 let filterData = [];
 let searchData = [];
@@ -55,6 +58,7 @@ async function getData(page) {
         category = unifyClass(totalData, item);
         return item.Picture.PictureUrl1 !== undefined && category !== undefined;
     })
+    console.log(filterData);
 
     searchData = filterData;
     let pagesLength = Math.ceil(searchData.length / 12);
@@ -85,6 +89,26 @@ async function getData(page) {
         pagination.setPage(1);
     });
 }
+
+// 初始化
+async function init() {
+    pageName = sessionStorage.getItem("page");
+    switch (pageName) {
+        case "spot":
+            await getData("ScenicSpot");
+            break;
+        case "food":
+            await getData("Restaurant");
+            break;
+        case "hotel":
+            await getData("Hotel");
+            break;
+        case "activity":
+            await getData("Activity");
+            break;
+    }
+}
+init();
 
 // 根據頁數顯示對應資料
 function updateElements({ currentPage, pages }) {
@@ -120,26 +144,6 @@ function renderPageNum(pages,dataLength) {
     }
     paginationElement.innerHTML = str;
 }
-
-// 初始化
-async function init() {
-    pageName = sessionStorage.getItem("page");
-    switch (pageName) {
-        case "spot":
-            await getData("ScenicSpot");
-            break;
-        case "food":
-            await getData("Restaurant");
-            break;
-        case "hotel":
-            await getData("Hotel");
-            break;
-        case "activity":
-            await getData("Activity");
-            break;
-    }
-}
-init();
 
 // 進行資料分類 & 將分類結果顯示在搜尋列 select 選單
 function renderCategory(page) {
@@ -202,6 +206,50 @@ function unifyName(page, item) {
     return title;
 }
 
+// 統一資料的 ID 屬性名稱
+function unifyId(page, item) {
+    let spot = page.every(item => item.ScenicSpotName);
+    let activity = page.every(item => item.ActivityName);
+    let food = page.every(item => item.RestaurantName);
+    let hotel = page.every(item => item.HotelName);
+
+    if (spot) {
+        dataId = item.ScenicSpotID;
+    }else if (activity) {
+        dataId = item.ActivityID;
+    }else if (food) {
+        dataId = item.RestaurantID;
+    }else if (hotel) {
+        dataId = item.HotelID;
+    }
+    return dataId;
+}
+
+function renderDetail(page, item) {
+    let spot = page.every(item => item.ScenicSpotName);
+    let activity = page.every(item => item.ActivityName);
+    let food = page.every(item => item.RestaurantName);
+    let hotel = page.every(item => item.HotelName);
+
+    if(spot){
+        detail = `連絡電話 : ${item.Phone}`;
+        detail2 = `地址 : ${item.Address}`;
+    }else if (food) {
+        detail = `連絡電話 : ${item.Phone}`;
+        detail2 = `營業時間 : ${item.OpenTime}`;
+    }else if (hotel) {
+        detail = `連絡電話 : ${item.Phone}`;
+        if (item.ServiceInfo) {
+            detail2 = `服務 : ${item.ServiceInfo}`;
+        }else {
+            detail2 = `地址 : ${item.Address}`;
+        }
+    }else if (activity) {
+        detail = `主辦單位 : ${item.Organizer}`;
+        detail2 = `地址 : ${item.Address}`;
+    }
+}
+
 // 判斷頁面載入對應初始資料
 link.addEventListener("click", function (e) {
     sessionStorage.setItem("page", e.target.dataset.page);
@@ -213,9 +261,10 @@ link.addEventListener("click", function (e) {
 
 // 組資料字串 & 畫面渲染
 function renderData(page) {
-    let str = "";
+    let cardStr = "";
+    let modalStr = "";
     if(!page.length){
-        str = `<div class="noContent w-100 d-flex flex-column align-items-center">
+        cardStr = `<div class="noContent w-100 d-flex flex-column align-items-center">
                   <img src="./images/no-content.png" alt="">
                   <p class="fs-2 mb-0 mt-3">很抱歉，查無此資料!</p>
                </div>`
@@ -223,11 +272,20 @@ function renderData(page) {
         page.forEach(item => {
             category = unifyClass(page, item);
             title = unifyName(page, item);
-            str += `<div class="col">
+            dataId = unifyId(page, item);
+            renderDetail(page, item);
+            // if(!item.Picture.PictureUrl1.includes("png") && !item.Picture.PictureUrl1.includes("jpg")) {
+            //     item.Picture.PictureUrl1 = "https://picsum.photos/200/300";
+            // }
+            
+            // 組卡片字串
+            cardStr += `<div class="col">
                         <div class="card p-2 h-100">
-                            <div class="spotImg">
-                                <img src="${item.Picture.PictureUrl1}"
-                                    alt="${item.Picture.PictureDescription1}" style="height: 200px; object-fit: cover" class="w-100" />
+                            <div class="resultImg">
+                                <a href="#" data-bs-toggle="modal" data-bs-target="#${dataId}">
+                                    <img src="${item.Picture.PictureUrl1}"
+                                        alt="${item.Picture.PictureDescription1}" style="height: 200px; object-fit: cover" class="w-100" />
+                                </a>
                             </div>
                             <div class="card-body p-20">
                                 <h5 class="card-title fw-bold">${title}</h5>
@@ -239,9 +297,35 @@ function renderData(page) {
                             </div>
                         </div>
                     </div>`;
+            // 組 modal 字串
+            modalStr += `<div class="modal" id="${dataId}" tabindex="-1" aria-labelledby="ModalLabel" aria-hidden="true">
+                          <div class="modal-dialog modal-xl">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <h2 class="modal-title" id="exampleModalLabel">${title}</h2>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                              </div>
+                              <div class="modal-body">
+                                <div class="container-fluid">
+                                    <img class="modalImg w-100" src="${item.Picture.PictureUrl1}" alt="${item.Picture.PictureDescription1}">
+                                    <h3 class="mt-3 mb-0">詳細介紹 :</h3>
+                                    <p class="p-3">${item.Description}</p>
+                                    <div class="row row-cols-2">
+                                      <div class="col">${detail}</div>
+                                      <div class="col">${detail2}</div>
+                                    </div>
+                                </div>
+                              </div>
+                              <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-primary">Save changes</button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>`
         })
     }
-    searchResult.innerHTML = str;
+    searchResult.innerHTML = cardStr + modalStr;
     showResult(searchData);
 }
 
