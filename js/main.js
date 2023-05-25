@@ -196,7 +196,7 @@ function unifyName(page, item) {
     } else if (food) {
         title = item.RestaurantName;
         time = `<p class="card-text">
-                    <i class="fa-solid fa-clock pe-2"></i>營業時間 :
+                    <i class="text-moonstone fa-solid fa-clock pe-2"></i>營業時間 :
                     <span class="">${item.OpenTime}</span>
                 </p>`;
         return title;
@@ -232,21 +232,21 @@ function renderDetail(page, item) {
     let hotel = page.every(item => item.HotelName);
 
     if(spot){
-        detail = `連絡電話 : ${item.Phone}`;
-        detail2 = `地址 : ${item.Address}`;
+        detail = `<i class="text-payne fa-solid fa-phone pe-2"></i> 連絡電話 : ${item.Phone}`;
+        detail2 = `<i class="text-rose fa-solid fa-location-dot pe-2"></i> 地址 : ${item.Address}`;
     }else if (food) {
-        detail = `連絡電話 : ${item.Phone}`;
-        detail2 = `營業時間 : ${item.OpenTime}`;
+        detail = `<i class="text-payne fa-solid fa-phone pe-2"></i> 連絡電話 : ${item.Phone}`;
+        detail2 = `<i class="text-moonstone fa-solid fa-clock pe-2"></i>營業時間 : ${item.OpenTime}`;
     }else if (hotel) {
-        detail = `連絡電話 : ${item.Phone}`;
+        detail = `<i class="text-payne fa-solid fa-phone pe-2"></i> 連絡電話 : ${item.Phone}`;
         if (item.ServiceInfo) {
-            detail2 = `服務 : ${item.ServiceInfo}`;
+            detail2 = `<i class="text-payne fa-solid fa-house-signal pe-2"></i>設施、服務 : ${item.ServiceInfo}`;
         }else {
-            detail2 = `地址 : ${item.Address}`;
+            detail2 = `<i class="text-rose fa-solid fa-location-dot pe-2"></i> 地址 : ${item.Address}`;
         }
     }else if (activity) {
-        detail = `主辦單位 : ${item.Organizer}`;
-        detail2 = `地址 : ${item.Address}`;
+        detail = `<i class="text-payne fa-solid fa-people-group pe-2"></i>主辦單位 : ${item.Organizer}`;
+        detail2 = `<i class="text-rose fa-solid fa-location-dot pe-2"></i> 地址 : ${item.Address}`;
     }
 }
 
@@ -274,9 +274,6 @@ function renderData(page) {
             title = unifyName(page, item);
             dataId = unifyId(page, item);
             renderDetail(page, item);
-            // if(!item.Picture.PictureUrl1.includes("png") && !item.Picture.PictureUrl1.includes("jpg")) {
-            //     item.Picture.PictureUrl1 = "https://picsum.photos/200/300";
-            // }
             
             // 組卡片字串
             cardStr += `<div class="col">
@@ -290,19 +287,21 @@ function renderData(page) {
                             <div class="card-body p-20">
                                 <h5 class="card-title fw-bold">${title}</h5>
                                 <p class="card-text mb-2">
-                                    <i class="fa-solid fa-location-dot pe-2"></i>${item.Address}
+                                    <i class="text-rose fa-solid fa-location-dot pe-2"></i>${item.Address}
                                 </p>
                                ${time}
-                                <span class="badge rounded-pill bg-primary">${category}</span>
+                            </div>
+                            <div class="card-footer">
+                                <span class="badge rounded-pill bg-hookerGreen">${category}</span>
                             </div>
                         </div>
                     </div>`;
             // 組 modal 字串
             modalStr += `<div class="modal" id="${dataId}" tabindex="-1" aria-labelledby="ModalLabel" aria-hidden="true">
-                          <div class="modal-dialog modal-xl">
+                          <div class="modal-dialog modal-dialog-scrollable modal-xl">
                             <div class="modal-content">
                               <div class="modal-header">
-                                <h2 class="modal-title" id="exampleModalLabel">${title}</h2>
+                                <h2 class="modal-title fw-bold text-hookerGreen" id="exampleModalLabel">${title}</h2>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                               </div>
                               <div class="modal-body">
@@ -310,15 +309,11 @@ function renderData(page) {
                                     <img class="modalImg w-100" src="${item.Picture.PictureUrl1}" alt="${item.Picture.PictureDescription1}">
                                     <h3 class="mt-3 mb-0">詳細介紹 :</h3>
                                     <p class="p-3">${item.Description}</p>
-                                    <div class="row row-cols-2">
+                                    <div class="row row-cols-1 row-cols-lg-2">
                                       <div class="col">${detail}</div>
-                                      <div class="col">${detail2}</div>
+                                      <div class="col mt-2 mt-lg-0">${detail2}</div>
                                     </div>
                                 </div>
-                              </div>
-                              <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <button type="button" class="btn btn-primary">Save changes</button>
                               </div>
                             </div>
                           </div>
