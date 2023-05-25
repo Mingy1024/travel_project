@@ -66,7 +66,6 @@ async function getData(page) {
     
     paginationElement.addEventListener("click", e => {
         const { action, value } = e.target.dataset;
-        console.log(action, value);
         const newPage = Number(value);
         const currentPage = pagination.getCurrentPage();
 
@@ -105,13 +104,13 @@ function renderPageNum(pages,dataLength) {
             if (item.value == "Prev") {
                 str += `<li class="page-item">
                             <a class="page-link" href="#result" aria-label="Prev" data-action="${item.action}" data-value="${item.value}">
-                                <span aria-hidden="true">&laquo;</span>
+                                &laquo;
                             </a>
                         </li>`;
             } else if (item.value == "Next") {
                 str += `<li class="page-item">
                             <a class="page-link" href="#result" aria-label="Next" data-action="${item.action}" data-value="${item.value}">
-                                <span aria-hidden="true">&raquo;</span>
+                                &raquo;
                             </a>
                         </li>`;
             } else {
@@ -215,26 +214,33 @@ link.addEventListener("click", function (e) {
 // 組資料字串 & 畫面渲染
 function renderData(page) {
     let str = "";
-    page.forEach(item => {
-        category = unifyClass(page, item);
-        title = unifyName(page, item);
-        str += `<div class="col">
-                    <div class="card p-2 h-100">
-                        <div class="spotImg">
-                            <img src="${item.Picture.PictureUrl1}"
-                                alt="${item.Picture.PictureDescription1}" style="height: 200px; object-fit: cover" class="w-100" />
+    if(!page.length){
+        str = `<div class="noContent w-100 d-flex flex-column align-items-center">
+                  <img src="./images/no-content.png" alt="">
+                  <p class="fs-2 mb-0 mt-3">很抱歉，查無此資料!</p>
+               </div>`
+    }else{
+        page.forEach(item => {
+            category = unifyClass(page, item);
+            title = unifyName(page, item);
+            str += `<div class="col">
+                        <div class="card p-2 h-100">
+                            <div class="spotImg">
+                                <img src="${item.Picture.PictureUrl1}"
+                                    alt="${item.Picture.PictureDescription1}" style="height: 200px; object-fit: cover" class="w-100" />
+                            </div>
+                            <div class="card-body p-20">
+                                <h5 class="card-title fw-bold">${title}</h5>
+                                <p class="card-text mb-2">
+                                    <i class="fa-solid fa-location-dot pe-2"></i>${item.Address}
+                                </p>
+                               ${time}
+                                <span class="badge rounded-pill bg-primary">${category}</span>
+                            </div>
                         </div>
-                        <div class="card-body p-20">
-                            <h5 class="card-title fw-bold">${title}</h5>
-                            <p class="card-text mb-2">
-                                <i class="fa-solid fa-location-dot pe-2"></i>${item.Address}
-                            </p>
-                           ${time}
-                            <span class="badge rounded-pill bg-primary">${category}</span>
-                        </div>
-                    </div>
-                </div>`;
-    })
+                    </div>`;
+        })
+    }
     searchResult.innerHTML = str;
     showResult(searchData);
 }
