@@ -2,7 +2,7 @@ export default function createPagination({ pagesLength = 1, currentPage = 1, onC
     const setPage = n => {
         currentPage = Number(n)
         const pages = getPages()
-        typeof onChange === 'function' && onChange(pages)
+        onChange(pages)
         return pages
     }
 

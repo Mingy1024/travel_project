@@ -6,6 +6,7 @@ const send = document.querySelector(".send");
 const citySelect = document.querySelector(".citySelect");
 const resultInfo = document.querySelector(".resultInfo");
 const paginationElement = document.querySelector(".pagination");
+const loading = document.querySelector(".loading");
 let pageName = "";
 let category = "";
 let title = "";
@@ -46,6 +47,7 @@ function getAuthorizationHeader() {
 
 // 串接 api 取得資料
 async function getData(page) {
+    loadingFuc();
     await axios.get(`https://tdx.transportdata.tw/api/basic/v2/Tourism/${page}?&%24format=JSON`, {
         headers: getAuthorizationHeader()
     })
@@ -53,7 +55,6 @@ async function getData(page) {
             totalData = res.data;
         });
     await renderCategory(totalData);
-
     filterData = totalData.filter(item => {
         category = unifyClass(totalData, item);
         return item.Picture.PictureUrl1 !== undefined && category !== undefined;
@@ -113,6 +114,7 @@ init();
 function updateElements({ currentPage, pages }) {
     let dataLength = searchData.length;
     const currentIndex = (currentPage - 1) * 12;
+    loadingFuc();
     renderData(searchData.slice(currentIndex, currentIndex + 12));
     renderPageNum(pages,dataLength);
 }
@@ -377,3 +379,8 @@ function keywordSearch(page) {
     return keyWordData;
 }
 
+// loading
+function loadingFuc() {
+    loading.classList.remove("d-none");
+    setTimeout(() => loading.classList.add("d-none"),1500);
+}
