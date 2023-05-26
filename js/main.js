@@ -276,12 +276,10 @@ function renderData(page) {
             
             // 組卡片字串
             cardStr += `<div class="col">
-                        <div class="card p-2 h-100">
+                        <div class="card p-2 h-100" data-bs-toggle="modal" data-bs-target="#${dataId}">
                             <div class="resultImg">
-                                <a href="#" data-bs-toggle="modal" data-bs-target="#${dataId}">
                                     <img src="${item.Picture.PictureUrl1}"
                                         alt="${item.Picture.PictureDescription1}" style="height: 200px; object-fit: cover" class="w-100" />
-                                </a>
                             </div>
                             <div class="card-body p-20">
                                 <h5 class="card-title fw-bold">${title}</h5>

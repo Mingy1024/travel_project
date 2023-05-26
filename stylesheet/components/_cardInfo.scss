@@ -2,6 +2,7 @@
     overflow: hidden;
     border-radius: 8px;
 }
+
 .resultInfo {
     max-width: 700px;
     border: 1px solid #d7d7d7;
@@ -26,5 +27,19 @@
     .modalImg {
         height: 400px;
         object-fit: cover;
+    }
+}
+
+.card {
+    &:hover {
+        cursor: pointer;
+        box-shadow: 0 0 5px 3px #c17c74;
+        transform: scale(1.1, 1.1);
+        transition: all 0.5s ease-in-out;
+
+        img {
+            transform: scale(1.2, 1.2);
+            transition: all 0.5s ease-in-out;
+        }
     }
 }

@@ -1195,9 +1195,9 @@ $pagination-padding-x-sm:           .5rem !default;
 $pagination-padding-y-lg:           .75rem !default;
 $pagination-padding-x-lg:           1.5rem !default;
 
-$pagination-font-size:              $font-size-base !default;
+$pagination-font-size:              1.5rem; // $font-size-base !default;
 
-$pagination-color:                  var(--#{$prefix}link-color) !default;
+$pagination-color:                  #486b73; // var(--#{$prefix}link-color) !default;
 $pagination-bg:                     $white !default;
 $pagination-border-radius:          $border-radius !default;
 $pagination-border-width:           $border-width !default;
@@ -1205,16 +1205,16 @@ $pagination-margin-start:           ($pagination-border-width * -1) !default;
 $pagination-border-color:           $gray-300 !default;
 
 $pagination-focus-color:            var(--#{$prefix}link-hover-color) !default;
-$pagination-focus-bg:               $gray-200 !default;
-$pagination-focus-box-shadow:       $input-btn-focus-box-shadow !default;
+$pagination-focus-bg:               transparent; // $gray-200 !default;
+$pagination-focus-box-shadow:       0; // $input-btn-focus-box-shadow !default;
 $pagination-focus-outline:          0 !default;
 
-$pagination-hover-color:            var(--#{$prefix}link-hover-color) !default;
-$pagination-hover-bg:               $gray-200 !default;
+$pagination-hover-color:            rgb(1, 185, 183); // var(--#{$prefix}link-hover-color) !default;
+$pagination-hover-bg:               transparent; // $gray-200 !default;
 $pagination-hover-border-color:     $gray-300 !default;
 
-$pagination-active-color:           $component-active-color !default;
-$pagination-active-bg:              $component-active-bg !default;
+$pagination-active-color:           rgb(245, 105, 97); // $component-active-color !default;
+$pagination-active-bg:              transparent; // $component-active-bg !default;
 $pagination-active-border-color:    $pagination-active-bg !default;
 
 $pagination-disabled-color:         $gray-600 !default;
