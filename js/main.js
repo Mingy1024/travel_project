@@ -58,7 +58,6 @@ async function getData(page) {
         category = unifyClass(totalData, item);
         return item.Picture.PictureUrl1 !== undefined && category !== undefined;
     })
-    console.log(filterData);
 
     searchData = filterData;
     let pagesLength = Math.ceil(searchData.length / 12);
@@ -127,18 +126,18 @@ function renderPageNum(pages,dataLength) {
         pages.forEach(item => {
             if (item.value == "Prev") {
                 str += `<li class="page-item">
-                            <a class="page-link" href="#result" aria-label="Prev" data-action="${item.action}" data-value="${item.value}">
+                            <a class="page-link border-0" href="#result" aria-label="Prev" data-action="${item.action}" data-value="${item.value}">
                                 &laquo;
                             </a>
                         </li>`;
             } else if (item.value == "Next") {
                 str += `<li class="page-item">
-                            <a class="page-link" href="#result" aria-label="Next" data-action="${item.action}" data-value="${item.value}">
+                            <a class="page-link border-0" href="#result" aria-label="Next" data-action="${item.action}" data-value="${item.value}">
                                 &raquo;
                             </a>
                         </li>`;
             } else {
-                str += `<li class="page-item"><a class="page-link" href="#result" data-action="${item.action}" data-value="${item.value}">${item.value}</a></li>`
+                str += `<li class="page-item ${item.isActive ? "active" : ""}"><a class="page-link border-0" href="#result" data-action="${item.action}" data-value="${item.value}">${item.value}</a></li>`;
             }
         })
     }
