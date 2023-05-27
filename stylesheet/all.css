@@ -11441,12 +11441,17 @@ body {
 .card:hover {
   cursor: pointer;
   box-shadow: 0 0 5px 3px #c17c74;
-  transform: scale(1.1, 1.1);
+  transform: scale(0.9, 0.9);
   transition: all 0.5s ease-in-out;
 }
 .card:hover img {
   transform: scale(1.2, 1.2);
   transition: all 0.5s ease-in-out;
+}
+@media (min-width: 768px) {
+  .card:hover {
+    transform: scale(1.1, 1.1);
+  }
 }
 
 .resultInfo p {
