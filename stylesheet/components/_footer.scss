@@ -1,0 +1,13 @@
+footer {
+    color: rgba($color: white, $alpha: 0.55);
+    a {
+        text-decoration: none;
+        color: rgba($color: white, $alpha: 0.55);
+        &:hover {
+            color: #92a78f;
+        }
+    }
+    h5 {
+        margin-bottom: 20px;
+    }
+}

@@ -7,6 +7,12 @@
     <link rel="icon" href="./images/suitcase.png" />
     <title>台灣旅遊趣</title>
     <link rel="stylesheet" href="./stylesheet/all.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Kalam:wght@700&display=swap"
+      rel="stylesheet"
+    />
     <script
       src="https://kit.fontawesome.com/48f04622d4.js"
       crossorigin="anonymous"
@@ -14,7 +20,7 @@
   </head>
 
   <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark p-2">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark p-2 sticky-top">
       <div class="container-fluid p-0">
         <a
           class="navbar-brand pe-4 py-0 ps-lg-0 me-lg-0 ms-auto ps-56 border-end border-white"
@@ -41,29 +47,25 @@
         >
           <ul class="navbar-nav mb-2 ms-auto mb-lg-0 me-3">
             <li class="nav-item">
-              <a
-                class="nav-link"
-                aria-current="page"
-                href="./spot.html"
-                data-page="spot"
+              <a class="nav-link" aria-current="page" href="#" data-page="spot"
                 ><i class="fa-solid fa-mountain p-3" data-page="spot"></i
                 >找景點</a
               >
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="./spot.html" data-page="food"
+              <a class="nav-link" href="#" data-page="food"
                 ><i class="fa-solid fa-utensils p-3" data-page="food"></i
                 >找美食</a
               >
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="./spot.html" data-page="hotel"
+              <a class="nav-link" href="#" data-page="hotel"
                 ><i class="fa-solid fa-hotel p-3" data-page="hotel"></i
                 >找旅宿</a
               >
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="./spot.html" data-page="activity"
+              <a class="nav-link" href="#" data-page="activity"
                 ><i
                   class="fa-solid fa-calendar-week p-3"
                   data-page="activity"
@@ -104,111 +106,77 @@
         </div>
       </div>
       <div class="searchArea w-100 h-100">
-        <div class="container title">
+        <div class="container search">
           <div class="row justify-content-lg-center mb-4">
             <div class="col-9">
               <h1 class="text-white fw-bold">
-                探索台灣之美<br />讓我們更親近這片土地
+                一起來場<br class="d-lg-none" />說走就走的台灣之旅吧！
               </h1>
             </div>
             <div class="col-1"></div>
           </div>
+          <div class="row justify-content-center g-3">
+            <div class="col-6 col-lg-2">
+              <select class="form-select citySelect">
+                <option selected class="d-none" value="">找縣市</option>
+                <option value="臺北市">臺北市</option>
+                <option value="新北市">新北市</option>
+                <option value="桃園市">桃園市</option>
+                <option value="新竹市">新竹市</option>
+                <option value="新竹縣">新竹縣</option>
+                <option value="苗栗縣">苗栗縣</option>
+                <option value="臺中市">臺中市</option>
+                <option value="彰化縣">彰化縣</option>
+                <option value="南投縣">南投縣</option>
+                <option value="雲林縣">雲林縣</option>
+                <option value="嘉義縣">嘉義縣</option>
+                <option value="嘉義市">嘉義市</option>
+                <option value="臺南市">臺南市</option>
+                <option value="高雄市">高雄市</option>
+                <option value="屏東縣">屏東縣</option>
+                <option value="臺東縣">臺東縣</option>
+                <option value="花蓮縣">花蓮縣</option>
+                <option value="宜蘭縣">宜蘭縣</option>
+                <option value="基隆市">基隆市</option>
+                <option value="金門縣">金門縣</option>
+                <option value="澎湖縣">澎湖縣</option>
+                <option value="連江縣">連江縣</option>
+              </select>
+            </div>
+            <div class="col-6 col-lg-2">
+              <select class="form-select categorySelect"></select>
+            </div>
+            <div class="col-12 col-lg-4">
+              <input
+                type="text"
+                class="form-control keyWord"
+                placeholder="找關鍵字"
+              />
+            </div>
+            <div class="col-12 col-lg-2">
+              <button class="btn btn-dark w-100 send">
+                <i class="fa-solid fa-magnifying-glass pe-2"></i>搜尋
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
-    <section class="intro pb-5">
-      <div class="container">
-        <div class="row row-cols-1 row-cols-md-2 pt-4">
-          <div class="col">
-            <img
-              src="./images/undraw_trip_re_f724.svg"
-              alt=""
-              style="height: 400px"
-              class="w-100 animation-wrapper from-left"
-            />
-            <p class="fs-1 text-center mb-0 mt-4 mt-md-0 mt-lg-4 fw-bold">
-              <span class="animation-wrapper typing typing1"></span>
-              <span class="cursor">|</span>
-            </p>
-          </div>
-          <div class="col"></div>
-        </div>
-        <div class="row row-cols-1 row-cols-md-2 flex-row-reverse pt-4">
-          <div class="col">
-            <img
-              src="./images/undraw_eating_together_re_ux62.svg"
-              alt=""
-              style="height: 400px"
-              class="w-100 animation-wrapper from-right"
-            />
-            <p class="fs-1 text-center mb-0 mt-4 mt-md-0 mt-lg-4 fw-bold">
-              <span class="animation-wrapper typing typing2"></span>
-              <span class="cursor">|</span>
-            </p>
-          </div>
-          <div class="col"></div>
-        </div>
-        <div class="row row-cols-1 row-cols-md-2 pt-4">
-          <div class="col">
-            <img
-              src="./images/undraw_buy_house_re_8xq7.svg"
-              alt=""
-              style="height: 400px"
-              class="w-100 animation-wrapper from-left"
-            />
-            <p class="fs-1 text-center mb-0 mt-4 mt-md-0 mt-lg-4 fw-bold">
-              <span class="animation-wrapper typing typing3"></span>
-              <span class="cursor">|</span>
-            </p>
-          </div>
-          <div class="col"></div>
+
+    <div class="container" id="result">
+      <div class="row">
+        <div class="col-12">
+          <div class="resultInfo d-sm-flex justify-content-between"></div>
         </div>
       </div>
-    </section>
-    <section class="scroll">
-      <div class="gate gate-top gate-top-1 z-20">
-        <img src="./images/view.png" alt="view" />
-      </div>
-      <div class="gate gate-bottom gate-bottom-1 z-20">
-        <div class="scroll-info1 d-flex flex-column align-items-center p-4">
-          <h2 class="text-white fw-bold fs-1">幫您整理好各縣市的景點資訊!</h2>
-          <a
-            class="btn btn-cornsilk w-50 rounded-pill mt-3 fs-4 fw-bold spot"
-            href="./spot.html"
-            data-page="spot"
-            >開始搜尋景點</a
-          >
-        </div>
-      </div>
-      <div class="gate gate-top gate-top-2 z-10">
-        <img src="./images/food.png" alt="food" />
-      </div>
-      <div class="gate gate-bottom gate-bottom-2 z-10">
-        <div class="scroll-info2 d-flex flex-column align-items-center p-4">
-          <h2 class="text-white fw-bold fs-1">出遊卻還在煩惱要吃什麼嗎?</h2>
-          <a
-            class="btn btn-cornsilk w-50 rounded-pill mt-3 fs-4 fw-bold food"
-            href="./spot.html"
-            data-page="food"
-            >開始搜尋美食</a
-          >
-        </div>
-      </div>
-      <div class="gate gate-top gate-top-3 z-0">
-        <img src="./images/hotel.png" alt="hotel" />
-      </div>
-      <div class="gate gate-bottom gate-bottom-3 z-0">
-        <div class="scroll-info3 d-flex flex-column align-items-center p-4">
-          <h2 class="text-white fw-bold fs-1">人氣、超值住宿選擇都在這!</h2>
-          <a
-            class="btn btn-cornsilk w-50 rounded-pill mt-3 fs-4 fw-bold hotel"
-            href="./spot.html"
-            data-page="hotel"
-            >開始搜尋旅宿</a
-          >
-        </div>
-      </div>
-    </section>
+      <div
+        class="searchResult row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 g-4 mb-4"
+      ></div>
+
+      <nav aria-label="Page navigation">
+        <ul class="pagination justify-content-center font-Kalam"></ul>
+      </nav>
+    </div>
 
     <footer class="p-4 bg-dark">
       <div class="container">
@@ -283,10 +251,6 @@
     <script src="./node_modules/@popperjs/core/dist/umd/popper.min.js"></script>
     <script src="./node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="./node_modules/axios/dist/axios.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/ScrollTrigger.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/TextPlugin.min.js"></script>
-    <script src="./js/gsap.js"></script>
-    <script src="./js/switch.js"></script>
+    <script type="module" src="./js/main.js"></script>
   </body>
 </html>
