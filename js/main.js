@@ -1,3 +1,4 @@
+import createPagination from './createPagination.js';
 const searchResult = document.querySelector(".searchResult");
 const categorySelect = document.querySelector(".categorySelect");
 const link = document.querySelector(".navbar-nav");
@@ -18,7 +19,6 @@ let totalData = [];
 let filterData = [];
 let searchData = [];
 
-import createPagination from './createPagination.js';
 
 // API認證
 function getAuthorizationHeader() {
@@ -75,7 +75,7 @@ async function getData(page) {
 
         if (!action || currentPage == newPage) { return; }
 
-        const { currentPage: newCurrentPage } = pagination[action](newPage);
+        pagination[action](newPage);
     })
 
     // 搜尋按鈕監聽
@@ -167,16 +167,26 @@ function renderCategory(page) {
     })
 }
 
-// 統一資料的 種類 屬性名稱
-function unifyClass(page, item) {
+// 辨別頁面
+function discern(page, item) {
     let spot = page.every(item => item.ScenicSpotName);
     let activity = page.every(item => item.ActivityName);
     let food = page.every(item => item.RestaurantName);
     let hotel = page.every(item => item.HotelName);
+    return {
+        spot: spot,
+        activity: activity,
+        food: food,
+        hotel: hotel
+    }
+}
 
-    if (spot || activity) {
+// 統一資料的 種類 屬性名稱
+function unifyClass(page, item) {
+    let pages = discern(page, item);
+    if (pages.spot || pages.activity) {
         category = item.Class1;
-    } else if (food || hotel) {
+    } else if (pages.food || pages.hotel) {
         category = item.Class;
     }
     return category;
@@ -184,24 +194,21 @@ function unifyClass(page, item) {
 
 // 統一資料的 標題 屬性名稱
 function unifyName(page, item) {
-    let spot = page.every(item => item.ScenicSpotName);
-    let activity = page.every(item => item.ActivityName);
-    let food = page.every(item => item.RestaurantName);
-    let hotel = page.every(item => item.HotelName);
+    let pages = discern(page, item);
     time = "";
 
-    if (spot) {
+    if (pages.spot) {
         title = item.ScenicSpotName;
-    } else if (activity) {
+    } else if (pages.activity) {
         title = item.ActivityName;
-    } else if (food) {
+    } else if (pages.food) {
         title = item.RestaurantName;
         time = `<p class="card-text">
                     <i class="text-moonstone fa-solid fa-clock pe-2"></i>營業時間 :
                     <span class="">${item.OpenTime}</span>
                 </p>`;
         return title;
-    } else if (hotel) {
+    } else if (pages.hotel) {
         title = item.HotelName;
     }
     return title;
@@ -209,43 +216,38 @@ function unifyName(page, item) {
 
 // 統一資料的 ID 屬性名稱
 function unifyId(page, item) {
-    let spot = page.every(item => item.ScenicSpotName);
-    let activity = page.every(item => item.ActivityName);
-    let food = page.every(item => item.RestaurantName);
-    let hotel = page.every(item => item.HotelName);
+    let pages = discern(page, item);
 
-    if (spot) {
+    if (pages.spot) {
         dataId = item.ScenicSpotID;
-    }else if (activity) {
+    }else if (pages.activity) {
         dataId = item.ActivityID;
-    }else if (food) {
+    }else if (pages.food) {
         dataId = item.RestaurantID;
-    }else if (hotel) {
+    }else if (pages.hotel) {
         dataId = item.HotelID;
     }
     return dataId;
 }
 
+// 渲染 modal 內的細節內容
 function renderDetail(page, item) {
-    let spot = page.every(item => item.ScenicSpotName);
-    let activity = page.every(item => item.ActivityName);
-    let food = page.every(item => item.RestaurantName);
-    let hotel = page.every(item => item.HotelName);
+    let pages = discern(page, item);
 
-    if(spot){
+    if(pages.spot){
         detail = `<i class="text-payne fa-solid fa-phone pe-2"></i> 連絡電話 : ${item.Phone}`;
         detail2 = `<i class="text-rose fa-solid fa-location-dot pe-2"></i> 地址 : ${item.Address}`;
-    }else if (food) {
+    }else if (pages.food) {
         detail = `<i class="text-payne fa-solid fa-phone pe-2"></i> 連絡電話 : ${item.Phone}`;
         detail2 = `<i class="text-moonstone fa-solid fa-clock pe-2"></i>營業時間 : ${item.OpenTime}`;
-    }else if (hotel) {
+    }else if (pages.hotel) {
         detail = `<i class="text-payne fa-solid fa-phone pe-2"></i> 連絡電話 : ${item.Phone}`;
         if (item.ServiceInfo) {
             detail2 = `<i class="text-payne fa-solid fa-house-signal pe-2"></i>設施、服務 : ${item.ServiceInfo}`;
         }else {
             detail2 = `<i class="text-rose fa-solid fa-location-dot pe-2"></i> 地址 : ${item.Address}`;
         }
-    }else if (activity) {
+    }else if (pages.activity) {
         detail = `<i class="text-payne fa-solid fa-people-group pe-2"></i>主辦單位 : ${item.Organizer}`;
         detail2 = `<i class="text-rose fa-solid fa-location-dot pe-2"></i> 地址 : ${item.Address}`;
     }
