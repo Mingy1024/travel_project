@@ -112,3 +112,5 @@ srollTL.to(".gate-top-1",{ xPercent: "-100" });
 srollTL.to(".gate-bottom-1",{ xPercent: "100" }, "<");
 srollTL.to(".gate-top-2",{ xPercent: "-100" });
 srollTL.to(".gate-bottom-2",{ xPercent: "100" }, "<");
+srollTL.to(".gate-top-3",{ xPercent: "-100" });
+srollTL.to(".gate-bottom-3",{ xPercent: "100" }, "<");

@@ -2,6 +2,7 @@ const link = document.querySelector(".navbar-nav");
 const spot =document.querySelector(".spot");
 const food =document.querySelector(".food");
 const hotel =document.querySelector(".hotel");
+const activity =document.querySelector(".activity");
 const loading = document.querySelector(".loading");
 
 link.addEventListener("click", e => {
@@ -17,6 +18,9 @@ food.addEventListener("click", e => {
 hotel.addEventListener("click", e => {
     sessionStorage.setItem("page", e.target.dataset.page);
 });
+activity.addEventListener("click",e => {
+    sessionStorage.setItem("page", e.target.dataset.page);
+})
 
 // loading
 function loadingFuc() {

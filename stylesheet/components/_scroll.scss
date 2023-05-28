@@ -1,7 +1,6 @@
 // 滾動效果
 .scroll {
   position: relative;
-  //   display: flex;
   height: 100vh;
   overflow: hidden;
 }
@@ -13,12 +12,11 @@
   align-items: center;
   width: 100%;
   height: 50%;
+  background-image: url("../../images/texture.png");
 
   img {
     height: 300px;
     width: 300px;
-    // position: absolute;
-    // right: 25%;
   }
 }
 
@@ -33,6 +31,9 @@
 .z-20 {
   z-index: 20;
 }
+.z-30 {
+  z-index: 30;
+}
 
 .gate-top {
   top: 0;
@@ -44,55 +45,56 @@
 
 .gate-top-1 {
   background-color: #486b73;
-  background-image: url("../../images/texture.png");
 }
 
 .gate-bottom-1 {
   background-color: #6699a1;
-  background-image: url("../../images/texture.png");
 }
 
 .gate-top-2 {
   background-color: #9c6d69;
-  background-image: url("../../images/texture.png");
 }
 
 .gate-bottom-2 {
   background-color: #c17c74;
-  background-image: url("../../images/texture.png");
+  // background-image: url("../../images/texture.png");
 }
 
 .gate-top-3 {
   background-color: #6d8981;
-  background-image: url("../../images/texture.png");
 }
 
 .gate-bottom-3 {
   background-color: #92a78f;
-  background-image: url("../../images/texture.png");
+}
+.gate-top-4 {
+  background-color: #CFAF8F;
+}
+
+.gate-bottom-4 {
+  background-color: #D6C99D;
 }
 
 // 搜尋按鈕動畫
-.scroll-info1:hover {
+.scroll-effect:hover {
   transform: rotate(-5deg);
-  background-color: #92a78f;
   border-radius: 50%;
   transition: 1s ease;
   background-image: url("../../images/texture.png");
+}
+
+.scroll-info1:hover {
+  background-color: #CFAF8F;
 }
 
 .scroll-info2:hover {
-  transform: rotate(-5deg);
   background-color: #6699a1;
-  border-radius: 50%;
-  transition: 1s ease;
-  background-image: url("../../images/texture.png");
 }
 
 .scroll-info3:hover {
-  transform: rotate(-5deg);
   background-color: #c17c74;
-  border-radius: 50%;
-  transition: 1s ease;
-  background-image: url("../../images/texture.png");
+}
+
+.scroll-info4:hover {
+  background-color: #92a78f;
 }
