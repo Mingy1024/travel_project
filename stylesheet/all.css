@@ -11264,6 +11264,10 @@ textarea.form-control-lg {
     height: 100px;
   }
 }
+.nav-link:hover {
+  color: #CFAF8F;
+}
+
 .header {
   height: 500px;
   position: relative;

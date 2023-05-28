@@ -8,3 +8,8 @@
         height: 100px;
     }
 }
+.nav-link {
+    &:hover {
+        color: #CFAF8F;
+    }
+}

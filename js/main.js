@@ -1,4 +1,4 @@
-import createPagination from './createPagination.js';
+import createPagination from './module/createPagination.js';
 const searchResult = document.querySelector(".searchResult");
 const categorySelect = document.querySelector(".categorySelect");
 const link = document.querySelector(".navbar-nav");
